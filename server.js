@@ -23,3 +23,30 @@ function broadcastMessage(message, senderAddress = null) {
         }
     });
 }
+
+
+// Funksionet do vazhdojne ketu...
+
+
+
+// Server chat interface to broadcast messages
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+console.log("Type a message to broadcast to all clients, or type 'exit' to close the server.");
+rl.on('line', (input) => {
+    if (input.trim().toLowerCase() === 'exit') {
+        console.log("Server shutting down...");
+        server.close();
+        rl.close();
+    } else {
+        broadcastMessage(`Server says: ${input}`);
+        console.log("Message broadcasted to all clients.");
+    }
+});
+
+server.bind(PORT, IP_ADDRESS, () => {
+    console.log(`Server listening on ${IP_ADDRESS}:${PORT}`);
+});
