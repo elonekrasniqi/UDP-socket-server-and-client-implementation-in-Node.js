@@ -7,3 +7,14 @@ const SERVER_PORT = 3500;
 const client = dgram.createSocket('udp4');
 let isConnected = false;
 let inChatMode = false;
+
+client.on('message', (msg) => {
+    const message = msg.toString().trim();
+    console.log(`\nServer: ${message}`);
+
+    if (!inChatMode) {
+        showMenu();
+    }
+});
+
+const rl = readline.createInterface();
