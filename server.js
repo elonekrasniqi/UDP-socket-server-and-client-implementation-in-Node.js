@@ -52,6 +52,19 @@ function editFile(file, text) {
 }
 
 
+//Funksioni per me i fshi fajllat
+function clearFile(file) {
+    if (!file) return "Error: File name not specified for 'clear' command.";
+    const filePath = path.join(currentDirectory, file);
+    try {
+        fs.writeFileSync(filePath, '');
+        return `Content of '${file}' cleared successfully.`;
+    } catch (err) {
+        return `Error clearing file '${file}': ${err.message}`;
+    }
+}
+
+
 // Server chat interface to broadcast messages
 const rl = readline.createInterface({
     input: process.stdin,
