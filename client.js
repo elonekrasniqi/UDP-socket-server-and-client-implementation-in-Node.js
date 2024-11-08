@@ -47,6 +47,38 @@ function showMenu() {
         });
     }
 }
+function chatMode() {
+    console.log("You are now in chat mode. Type 'EXIT' to leave chat.");
+    rl.on('line', (input) => {
+        if (input.toLowerCase() === 'exit') {
+            inChatMode = false;
+            sendMessage('chat exit');
+            console.log("You have left the chat.");
+            rl.removeAllListeners('line');
+            showMenu();
+        } else {
+            sendMessage(`chat ${input}`);
+        }
+    });
+}
+
+function enterCommand() {
+    rl.question("Enter your command: ", (cmd) => {
+        const commandParts = cmd.trim().split(' ');
+        const mainCommand = commandParts[0];
+
+        // Check if command requires an argument and show an error if missing
+        if ((mainCommand === 'add' || mainCommand === 'remove' || mainCommand === 'execute' || 
+             mainCommand === 'edit' || mainCommand === 'clear' || mainCommand === 'read' || 
+             mainCommand === 'mkdir' || mainCommand === 'cd' || mainCommand === 'rmdir') && 
+            !commandParts[1]) {
+            console.log(`Error: Argument required for '${mainCommand}' command.`);
+            showMenu();
+        } else {
+            sendMessage(cmd);
+        }
+    });
+}
 
 // Initial connection to server
 console.log(`Connecting to server at ${SERVER_IP}:${SERVER_PORT}...`);
