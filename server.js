@@ -27,6 +27,18 @@ function broadcastMessage(message, senderAddress = null) {
 
 // Funksionet do vazhdojne ketu...
 
+//Funksioni per me lexu fajllin 
+function readFile(file) {
+    if (!file) return "Error: File name not specified for 'read' command.";
+    const filePath = path.join(currentDirectory, file);
+    try {
+        const data = fs.readFileSync(filePath, 'utf8');
+        return `Contents of '${file}':\n${data}`;
+    } catch (err) {
+        return `Error reading file '${file}': ${err.message}`;
+    }
+}
+
 
 
 // Server chat interface to broadcast messages
