@@ -64,6 +64,16 @@ function clearFile(file) {
     }
 }
 
+//Funksioni per me i listu fajllat
+function listFiles() {
+    try {
+        const files = fs.readdirSync(currentDirectory);
+        return `Files in directory ${currentDirectory}:\n${files.join('\n')}`;
+    } catch (err) {
+        return `Error listing files: ${err.message}`;
+    }
+}
+
 
 // Server chat interface to broadcast messages
 const rl = readline.createInterface({
