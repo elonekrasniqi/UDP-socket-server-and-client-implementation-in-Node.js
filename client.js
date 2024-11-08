@@ -17,4 +17,21 @@ client.on('message', (msg) => {
     }
 });
 
-const rl = readline.createInterface();
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function sendMessage(message) {
+    client.send(message, SERVER_PORT, SERVER_IP, (err) => {
+        if (err) {
+            console.log('Failed to send message:', err.message);
+        }
+    });
+}
+
+
+
+// Initial connection to server
+console.log(`Connecting to server at ${SERVER_IP}:${SERVER_PORT}...`);
+sendMessage('connect');
