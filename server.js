@@ -39,6 +39,17 @@ function readFile(file) {
     }
 }
 
+//Funksioni per me editu fajllin
+function editFile(file, text) {
+    if (!file) return "Error: File name not specified for 'edit' command.";
+    const filePath = path.join(currentDirectory, file);
+    try {
+        fs.appendFileSync(filePath, `\n${text}`);
+        return `Text added to '${file}' successfully.`;
+    } catch (err) {
+        return `Error editing file '${file}': ${err.message}`;
+    }
+}
 
 
 // Server chat interface to broadcast messages
