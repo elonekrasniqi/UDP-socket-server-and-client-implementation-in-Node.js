@@ -30,7 +30,23 @@ function sendMessage(message) {
     });
 }
 
-
+function showMenu() {
+    if (!inChatMode) {
+        console.log("\n1. Send a message to the chat");
+        console.log("2. Send a command to the server");
+        rl.question("Choose an option (1 or 2): ", (choice) => {
+            if (choice === '1') {
+                inChatMode = true;
+                chatMode();
+            } else if (choice === '2') {
+                enterCommand();
+            } else {
+                console.log("Invalid choice. Please enter 1 or 2.");
+                showMenu();
+            }
+        });
+    }
+}
 
 // Initial connection to server
 console.log(`Connecting to server at ${SERVER_IP}:${SERVER_PORT}...`);
