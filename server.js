@@ -130,6 +130,91 @@ function deleteDirectory(dirname) {
     }
 }
 
+
+// Function to handle client requests
+server.on('message', async (msg, clientAddress) => {
+    const message = msg.toString().trim();
+    console.log(`Received message from ${clientAddress.address}:${clientAddress.port} - ${message}`);
+
+    if (message === 'connect') {
+        if (!clients.some(client => client.address === clientAddress.address && client.port === clientAddress.port)) {
+            clients.push(clientAddress);
+            clientPrivileges[`${clientAddress.address}:${clientAddress.port}`] = clientAddress.address === ADMIN_IP ? 'full' : 'read-only';
+
+            console.log(`New client connected: ${clientAddress.address}:${clientAddress.port}`);
+            const privilegeMsg = clientAddress.address === ADMIN_IP ?
+                "Connection successful. You have admin privileges with full access." :
+                "Connection successful. You have read-only access.";
+            server.send(privilegeMsg, clientAddress.port, clientAddress.address);
+        }
+        return;
+    }
+
+    const privilege = clientPrivileges[`${clientAddress.address}:${clientAddress.port}`];
+    const commandParts = message.split(' ');
+    let response = '';
+
+    if (message.startsWith("chat")) {
+        const chatMessage = message.slice(5).trim();
+        if (chatMessage.toLowerCase() === 'exit') {
+            console.log(`Client ${clientAddress.address}:${clientAddress.port} left the chat.`);
+            broadcastMessage(`Client ${clientAddress.address}:${clientAddress.port} has left the chat.`);
+        } else {
+            console.log(`Broadcasting chat message: ${chatMessage}`);
+            broadcastMessage(`Client ${clientAddress.address}:${clientAddress.port} says: ${chatMessage}`, clientAddress);
+        }
+    } else {
+        if (privilege === 'full') {
+            switch (commandParts[0]) {
+                case 'add':
+                    response = addFile(commandParts[1]);
+                    break;
+                case 'remove':
+                    response = removeFile(commandParts[1]);
+                    break;
+                case 'execute':
+                    response = await executeFile(commandParts[1]);
+                    break;
+                case 'edit':
+                    response = editFile(commandParts[1], commandParts.slice(2).join(' '));
+                    break;
+                case 'clear':
+                    response = clearFile(commandParts[1]);
+                    break;
+                case 'ls':
+                    response = listFiles();
+                    break;
+                case 'read':
+                    response = readFile(commandParts[1]);
+                    break;
+                case 'mkdir':
+                    response = makeDirectory(commandParts[1]);
+                    break;
+                case 'cd':
+                    response = changeDirectory(commandParts[1]);
+                    break;
+                case 'rmdir':
+                    response = deleteDirectory(commandParts[1]);
+                    break;
+                default:
+                    response = 'Invalid command.';
+            }
+        } else {
+            if (commandParts[0] === 'ls' || commandParts[0] === 'read') {
+                response = commandParts[0] === 'ls' ? listFiles() : readFile(commandParts[1]);
+            } else {
+
+                response = 'You are not authorized to perform this action.';
+                
+            }
+        }
+
+
+        server.send(response + "\nEnter your command: ", clientAddress.port, clientAddress.address);
+
+    }
+});
+
 // Server chat interface to broadcast messages
 const rl = readline.createInterface({
     input: process.stdin,
