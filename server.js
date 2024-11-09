@@ -105,6 +105,18 @@ function makeDirectory(dirname) {
     }
 }
 
+//Funksioni per me ndrru pathin ku jemi te Folderit, pra me dal nga nje folder ne tjetrin folder qe eshte krijuar paraprakisht
+
+function changeDirectory(dirname) {
+    if (!dirname) return "Error: Directory name not specified for 'cd' command.";
+    const newDir = path.resolve(currentDirectory, dirname);
+    if (fs.existsSync(newDir) && fs.lstatSync(newDir).isDirectory()) {
+        currentDirectory = newDir;
+        return `Current directory changed to: ${currentDirectory}`;
+    } else {
+        return `Directory '${dirname}' does not exist.`;
+    }
+}
 
 // Server chat interface to broadcast messages
 const rl = readline.createInterface({
