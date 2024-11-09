@@ -118,6 +118,18 @@ function changeDirectory(dirname) {
     }
 }
 
+//Funksioni per ta fshire nje folder
+function deleteDirectory(dirname) {
+    if (!dirname) return "Error: Directory name not specified for 'rmdir' command.";
+    const dirPath = path.join(currentDirectory, dirname);
+    try {
+        fs.rmdirSync(dirPath, { recursive: true });
+        return `Directory '${dirname}' deleted successfully.`;
+    } catch (err) {
+        return `Error deleting directory '${dirname}': ${err.message}`;
+    }
+}
+
 // Server chat interface to broadcast messages
 const rl = readline.createInterface({
     input: process.stdin,
