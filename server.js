@@ -93,6 +93,18 @@ function listFiles() {
     }
 }
 
+//Funksioni per me kriju Folder
+function makeDirectory(dirname) {
+    if (!dirname) return "Error: Directory name not specified for 'mkdir' command.";
+    const dirPath = path.join(currentDirectory, dirname);
+    try {
+        fs.mkdirSync(dirPath);
+        return `Directory '${dirname}' created successfully.`;
+    } catch (err) {
+        return `Error creating directory '${dirname}': ${err.message}`;
+    }
+}
+
 
 // Server chat interface to broadcast messages
 const rl = readline.createInterface({
