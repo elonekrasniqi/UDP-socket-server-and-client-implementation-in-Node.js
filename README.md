@@ -4,12 +4,22 @@ This is a semester project developed by students at the University "Hasan Prisht
 ## Introduction
 This project demonstrates a server-client system using UDP sockets. The server listens for client requests, processes incoming messages, and provides either full or restricted access to stored files.
 
+## ⚙️ Main Features
 
-### How it Works
+### Server
+- **Configuration**: Set the server's IP address and port number.
+- **Listening to Clients**: Actively listens for incoming requests from group members.
+- **Request Handling**: Accepts and processes client requests.
+- **Message Processing**: Reads and processes messages sent by clients.
+- **File Access**: Provides full access to one client while restricting access for others.
 
-
-### Functions
-
+### Client
+- **Socket Creation**: Establishes a UDP socket connection with the server.
+- **Client Privileges**: One client has full privileges (read, write, execute), while others have read-only permissions.
+- **Server Connection**: Specifies correct port and IP for a successful connection.
+- **Message Sending**: Allows clients to send text messages to the server.
+- **Response Handling**: Reads and processes responses from the server.
+- **File Access**: The client with full privileges can access server file contents.
 
 ### How to Use
 
