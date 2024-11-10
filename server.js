@@ -70,6 +70,18 @@ function editFile(file, text) {
     }
 }
 
+function executeFile(file) {
+    const filePath = path.join(currentDirectory, file);
+    if (fs.existsSync(filePath)) {
+        const exec = require('child_process').exec;
+        exec(`node ${filePath}`, (error, stdout, stderr) => {
+            if (error) return `Error executing file: ${stderr}`;
+            return stdout;
+        });
+    }
+    return `File ${file} does not exist.`;
+}
+
 
 //Funksioni per me i fshi fajllat
 function clearFile(file) {
