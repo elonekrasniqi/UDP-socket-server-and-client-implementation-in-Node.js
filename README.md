@@ -21,8 +21,14 @@ This project demonstrates a server-client system using UDP sockets. The server l
 - **Response Handling**: Reads and processes responses from the server.
 - **File Access**: The client with full privileges can access server file contents.
 
-### How to Use
-
+## 🚀 How to Use
+1. **Set Server IP & Port**: Ensure the server's IP address and port number are correctly configured.
+2. **Run the Server**: Start the server and wait for client connections.
+   ```bash
+   node server.js
+3. **Start Client(s):** Run the client script to send requests to the server.
+   ```bash
+   node client.js
 
 ### Contributors:
 - [Elma Shabani](https://github.com/ElmaShabani)
