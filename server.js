@@ -89,3 +89,24 @@ function readFile(file) {
         return `Error reading file '${file}': ${err.message}`;
     }
 }
+
+
+function editFile(file, text) {
+    const filePath = path.join(currentDirectory, file);
+    try {
+        fs.appendFileSync(filePath, `\n${text}`);
+        return `Text added to '${file}' successfully.`;
+    } catch (err) {
+        return `Error editing file '${file}': ${err.message}`;
+    }
+}
+
+function clearFile(file) {
+    const filePath = path.join(currentDirectory, file);
+    try {
+        fs.writeFileSync(filePath, '');
+        return `Content of '${file}' cleared successfully.`;
+    } catch (err) {
+        return `Error clearing file '${file}': ${err.message}`;
+    }
+}
