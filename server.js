@@ -129,3 +129,17 @@ function makeDirectory(dirname) {
         return `Error creating directory '${dirname}': ${err.message}`;
     }
 }
+
+function changeDirectory(dirname) {
+    const targetDirectory = path.resolve(currentDirectory, dirname);
+    if (targetDirectory.startsWith(BASE_DIRECTORY)) {
+        if (fs.existsSync(targetDirectory) && fs.lstatSync(targetDirectory).isDirectory()) {
+            currentDirectory = targetDirectory;
+            return `Current directory changed to: ${currentDirectory}`;
+        } else {
+            return `Directory '${dirname}' does not exist.`;
+        }
+    } else {
+        return "Access denied. Cannot navigate outside the base directory.";
+    }
+}
