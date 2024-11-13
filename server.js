@@ -57,3 +57,25 @@ function removeFile(file) {
         return `Error removing file '${file}': ${err.message}`;
     }
 }
+
+
+function executeFile(file) {
+    const filePath = path.join(currentDirectory, file);
+    return new Promise((resolve) => {
+        let command;
+        if (file.endsWith('.py')) {
+            command = `python ${filePath}`;
+        } else if (file.endsWith('.js')) {
+            command = `node ${filePath}`;
+        } else {
+            command = filePath;
+        }
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                resolve(`Execution failed for '${file}'. Error: ${stderr}`);
+            } else {
+                resolve(`Execution of '${file}' successful. Output: ${stdout}`);
+            }
+        });
+    });
+}
