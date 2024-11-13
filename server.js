@@ -110,3 +110,46 @@ function clearFile(file) {
         return `Error clearing file '${file}': ${err.message}`;
     }
 }
+
+function listFiles() {
+    try {
+        const files = fs.readdirSync(currentDirectory);
+        return `Files in directory ${currentDirectory}:\n${files.join('\n')}`;
+    } catch (err) {
+        return `Error listing files: ${err.message}`;
+    }
+}
+
+function makeDirectory(dirname) {
+    const dirPath = path.join(currentDirectory, dirname);
+    try {
+        fs.mkdirSync(dirPath);
+        return `Directory '${dirname}' created successfully.`;
+    } catch (err) {
+        return `Error creating directory '${dirname}': ${err.message}`;
+    }
+}
+
+function changeDirectory(dirname) {
+    const targetDirectory = path.resolve(currentDirectory, dirname);
+    if (targetDirectory.startsWith(BASE_DIRECTORY)) {
+        if (fs.existsSync(targetDirectory) && fs.lstatSync(targetDirectory).isDirectory()) {
+            currentDirectory = targetDirectory;
+            return `Current directory changed to: ${currentDirectory}`;
+        } else {
+            return `Directory '${dirname}' does not exist.`;
+        }
+    } else {
+        return "Access denied. Cannot navigate outside the base directory.";
+    }
+}
+
+function deleteDirectory(dirname) {
+    const dirPath = path.join(currentDirectory, dirname);
+    try {
+        fs.rmdirSync(dirPath, { recursive: true });
+        return `Directory '${dirname}' deleted successfully.`;
+    } catch (err) {
+        return `Error deleting directory '${dirname}': ${err.message}`;
+    }
+}
