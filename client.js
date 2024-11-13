@@ -18,3 +18,17 @@ const rl = readline.createInterface({
 
 const encryptionKey = Buffer.from('12345678901234567890123456789012', 'utf8'); 
 const iv = Buffer.from('1234567890123456', 'utf8');
+
+function encryptMessage(message) {
+    const cipher = crypto.createCipheriv('aes-256-cbc', encryptionKey, iv);
+    let encrypted = cipher.update(message, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
+}
+
+function decryptMessage(encryptedMessage) {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', encryptionKey, iv);
+    let decrypted = decipher.update(encryptedMessage, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
