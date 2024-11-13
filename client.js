@@ -32,3 +32,19 @@ function decryptMessage(encryptedMessage) {
     decrypted += decipher.final('utf8');
     return decrypted;
 }
+
+function chatWithClients() {
+    console.log("You are now in chat with other clients. Type 'EXIT' to leave.");
+
+    rl.on('line', (input) => {
+        if (input.toLowerCase() === 'exit') {
+            inChatMode = false;
+            console.log("Exiting chat with clients.");
+            rl.removeAllListeners('line');
+            showMenu();
+        } else {
+            const encryptedMessage = encryptMessage(input);
+            sendMessage(`chat_clients ${encryptedMessage}`);
+        }
+    });
+}
