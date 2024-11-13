@@ -143,3 +143,13 @@ function changeDirectory(dirname) {
         return "Access denied. Cannot navigate outside the base directory.";
     }
 }
+
+function deleteDirectory(dirname) {
+    const dirPath = path.join(currentDirectory, dirname);
+    try {
+        fs.rmdirSync(dirPath, { recursive: true });
+        return `Directory '${dirname}' deleted successfully.`;
+    } catch (err) {
+        return `Error deleting directory '${dirname}': ${err.message}`;
+    }
+}
