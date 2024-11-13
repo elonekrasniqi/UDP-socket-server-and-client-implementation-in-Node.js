@@ -110,3 +110,12 @@ function clearFile(file) {
         return `Error clearing file '${file}': ${err.message}`;
     }
 }
+
+function listFiles() {
+    try {
+        const files = fs.readdirSync(currentDirectory);
+        return `Files in directory ${currentDirectory}:\n${files.join('\n')}`;
+    } catch (err) {
+        return `Error listing files: ${err.message}`;
+    }
+}
