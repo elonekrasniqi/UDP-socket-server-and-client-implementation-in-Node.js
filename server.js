@@ -35,3 +35,25 @@ function broadcastToClientsOnly(encryptedMessage, senderAddress) {
     });
 }
 
+// Funksionet për operacionet me skedarë brenda drejtorisë kryesore
+function addFile(file) {
+    if (!file) return "Error: File name not specified for 'add' command.";
+    const filePath = path.join(currentDirectory, file);
+    try {
+        fs.writeFileSync(filePath, '');
+        return `File '${file}' created successfully in ${currentDirectory}.`;
+    } catch (err) {
+        return `Error creating file '${file}': ${err.message}`;
+    }
+}
+
+function removeFile(file) {
+    if (!file) return "Error: File name not specified for 'remove' command.";
+    const filePath = path.join(currentDirectory, file);
+    try {
+        fs.unlinkSync(filePath);
+        return `File '${file}' removed successfully.`;
+    } catch (err) {
+        return `Error removing file '${file}': ${err.message}`;
+    }
+}
