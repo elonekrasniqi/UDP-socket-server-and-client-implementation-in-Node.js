@@ -9,4 +9,12 @@ const client = dgram.createSocket('udp4');
 let inChatMode = false;
 let waitingForResponse = false;
 let hasRequestedPrivileges = false;
-let isAdmin = false; // Ndjek statusin admin për klientin
+let isAdmin = false;
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+const encryptionKey = Buffer.from('12345678901234567890123456789012', 'utf8'); 
+const iv = Buffer.from('1234567890123456', 'utf8');
