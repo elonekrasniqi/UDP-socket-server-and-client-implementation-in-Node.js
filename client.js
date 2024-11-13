@@ -48,3 +48,40 @@ function chatWithClients() {
         }
     });
 }
+
+client.on('message', (msg) => {
+    const message = msg.toString().trim();
+    if (message.startsWith('chat_clients')) {
+        const encryptedContent = message.split(' ')[1];
+        try {
+            const decryptedMessage = decryptMessage(encryptedContent);
+            console.log(`Client message (decrypted): ${decryptedMessage}`);
+        } catch (error) {
+            console.log("Failed to decrypt message:", error.message);
+        }
+    } else {
+        console.log(`\nServer: ${message}`);
+        if (message.includes("Your admin privileges have been approved")) {
+            isAdmin = true;
+            waitingForResponse = false;
+            showMenuAfterPrivilegeRequest();
+        } else if (message.includes("Your admin privileges request has been denied")) {
+            waitingForResponse = false;
+            console.log("Admin privileges request was denied.");
+            showMenu();
+        } else if (!inChatMode && !waitingForResponse) {
+            setImmediate(() => showMenu());
+        }
+    }
+});
+
+client.on('error', (err) => {
+    console.log(`Client error: ${err.message}`);
+    client.close();
+    process.exit();
+});
+
+client.on('close', () => {
+    console.log("Disconnected from the server.");
+    process.exit();
+});
