@@ -79,3 +79,13 @@ function executeFile(file) {
         });
     });
 }
+
+function readFile(file) {
+    const filePath = path.join(currentDirectory, file);
+    try {
+        const data = fs.readFileSync(filePath, 'utf8');
+        return `Contents of '${file}':\n${data}`;
+    } catch (err) {
+        return `Error reading file '${file}': ${err.message}`;
+    }
+}
