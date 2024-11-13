@@ -119,3 +119,13 @@ function listFiles() {
         return `Error listing files: ${err.message}`;
     }
 }
+
+function makeDirectory(dirname) {
+    const dirPath = path.join(currentDirectory, dirname);
+    try {
+        fs.mkdirSync(dirPath);
+        return `Directory '${dirname}' created successfully.`;
+    } catch (err) {
+        return `Error creating directory '${dirname}': ${err.message}`;
+    }
+}
