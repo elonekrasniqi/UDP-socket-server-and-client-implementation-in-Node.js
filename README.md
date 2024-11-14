@@ -2,7 +2,8 @@
 This is a semester project developed by students at the University "Hasan Prishtina" - Faculty of Electrical and Computer Engineering, in the course "Computer Network" - Prof.Blerim Rexha and Msc.Mergim Hoti.
 
 ## Introduction
-This project demonstrates a server-client system using UDP sockets. The server listens for client requests, processes incoming messages, and provides either full or restricted access to stored files.
+This project demonstrates a server-client system using UDP sockets. The server listens for client requests, processes incoming messages, and provides either full or restricted access to stored files. 
+Additionally, clients can choose to send messages either to the server or directly to other connected clients.
 
 ## ⚙️ Main Features
 
@@ -18,7 +19,7 @@ This project demonstrates a server-client system using UDP sockets. The server l
 - **Client Privileges**: One client has full privileges (read, write, execute), while others have read-only permissions.
 - **Server Connection**: Specifies correct port and IP for a successful connection.
 - **Message Sending**: Allows clients to send text messages to the server.
-- **Response Handling**: Reads and processes responses from the server.
+- **Command Execution**: Clients can execute different commands such as `ls`, `cd`, `rmdir`, and `mkdir` to interact with the server's file system.
 - **File Access**: The client with full privileges can access server file contents.
 
 ## 🚀 How to Use
@@ -30,7 +31,7 @@ This project demonstrates a server-client system using UDP sockets. The server l
    ```bash
    node client.js
 
-### Contributors:
+## Contributors:
 - [Elma Shabani](https://github.com/ElmaShabani)
 - [Elion Mehaj](https://github.com/elionmehaj)
 - [Elonë Krasniqi](https://github.com/elonekrasniqi)
