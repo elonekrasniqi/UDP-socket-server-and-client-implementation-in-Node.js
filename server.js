@@ -153,3 +153,18 @@ function deleteDirectory(dirname) {
         return `Error deleting directory '${dirname}': ${err.message}`;
     }
 }
+
+
+// Trajtimi i mesazheve nga klientët
+server.on('message', async (msg, clientAddress) => {
+    const message = msg.toString().trim();
+    const clientKey = `${clientAddress.address}:${clientAddress.port}`;
+
+    console.log(`Received message from ${clientAddress.address}:${clientAddress.port} - ${message}`);
+
+    // Kontrollo nëse mesazhi është enkriptim për klientët e tjerë
+    if (message.startsWith('chat_clients')) {
+        const encryptedContent = message.split(' ')[1];
+        broadcastToClientsOnly(encryptedContent, clientAddress);
+        return;
+    }
