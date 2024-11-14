@@ -5,7 +5,7 @@
 
 <h1 align="center">UDP-socket-server-and-client-implementation-in-Node.js</h1>
 
-This is a semester project developed by students at the University "Hasan Prishtina" - Faculty of Electrical and Computer Engineering, in the course "Computer Network" - Prof.Blerim Rexha and Msc.Mergim Hoti.
+This is a semester project developed by students at the University "Hasan Prishtina" - Faculty of Electrical and Computer Engineering, in the course "Computer Network" - Prof.Blerim Rexha and PhD.Mergim Hoti.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -35,7 +35,7 @@ Additionally, clients can choose to send messages either to the server or direct
 - **Command Execution**: Clients can execute different commands such as `ls`, `cd`, `rmdir`, and `mkdir` to interact with the server's file system.
 - **File Access**: The client with full privileges can access server file contents.
 
-### 🚀 How to Use
+## 🚀 How to Use
 1. **Set Server IP & Port**: Ensure the server's IP address and port number are correctly configured.
 2. **Run the Server**: Start the server and wait for client connections.
    ```bash
@@ -44,7 +44,7 @@ Additionally, clients can choose to send messages either to the server or direct
    ```bash
    node client.js
 
-### Setup Instructions
+## Setup Instructions
 
 1. **Clone the Repository:**
    ```bash
