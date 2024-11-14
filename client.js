@@ -85,3 +85,55 @@ client.on('close', () => {
     console.log("Disconnected from the server.");
     process.exit();
 });
+
+// Funksioni për dërgimin e mesazheve te serveri
+function sendMessage(message) {
+    client.send(message, SERVER_PORT, SERVER_IP, (err) => {
+        if (err) {
+            console.log('Failed to send message:', err.message);
+        }
+    });
+}
+
+// Funksioni për të shfaqur menynë kryesore
+function showMenu() {
+    if (!inChatMode && !waitingForResponse) {
+        console.log("\n1. Send a message to the server");
+        console.log("2. Send a message to the chat with other clients");
+        console.log("3. Send a command to the server");
+        if (!isAdmin) console.log("4. Request admin privileges"); // Shfaq opsionin 4 vetëm nëse nuk është admin
+
+        rl.question(`Choose an option${isAdmin ? ' (1, 2, or 3): ' : ' (1, 2, 3, or 4): '}`, (choice) => {
+            if (choice === '1') {
+                chatWithServer();
+            } else if (choice === '2') {
+                chatWithClients();
+            } else if (choice === '3') {
+                enterCommand();
+            } else if (choice === '4' && !hasRequestedPrivileges && !isAdmin) {
+                requestAdminPrivileges();
+            } else {
+                console.log("Invalid choice. Please enter a valid option.");
+                showMenu();
+            }
+        });
+    }
+}
+
+// Funksioni për chat me serverin
+function chatWithServer() {
+    inChatMode = true;
+    console.log("You are now in chat mode with the server. Type 'EXIT' to leave chat.");
+
+    rl.on('line', (input) => {
+        if (input.toLowerCase() === 'exit') {
+            inChatMode = false;
+            sendMessage(`chat_exit ${client.address().address}`);
+            console.log("You have left the chat.");
+            rl.removeAllListeners('line');
+            showMenu();
+        } else {
+            sendMessage(`chat ${client.address().address}: ${input}`);
+        }
+    });
+}
