@@ -251,3 +251,24 @@ server.on('message', async (msg, clientAddress) => {
     
         server.send(response, clientAddress.port, clientAddress.address);
     });
+
+
+    // Funksioni për miratimin e privilegjeve admin
+function askForAdminApproval(clientAddress) {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.question(`Do you want to give full access to ${clientAddress.address}:${clientAddress.port}? (yes/no): `, (response) => {
+        if (response.trim().toLowerCase() === 'yes') {
+            clientPrivileges[`${clientAddress.address}:${clientAddress.port}`] = 'full';
+            server.send("Your admin privileges have been approved.", clientAddress.port, clientAddress.address);
+            console.log(`Admin privileges granted to ${clientAddress.address}:${clientAddress.port}.`);
+        } else {
+            server.send("Your admin privileges request has been denied.", clientAddress.port, clientAddress.address);
+            console.log(`Admin privileges request denied for ${clientAddress.address}:${clientAddress.port}.`);
+        }
+        rl.close();
+    });
+}
