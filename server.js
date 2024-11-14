@@ -272,3 +272,23 @@ function askForAdminApproval(clientAddress) {
         rl.close();
     });
 }
+
+
+// Fillimi i serverit
+server.bind(PORT, IP_ADDRESS, () => {
+    console.log(`Server listening on ${IP_ADDRESS}:${PORT}`);
+});
+
+// Mbyllja e serverit me komandën "exit"
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.on('line', (input) => {
+    if (input.trim().toLowerCase() === 'exit') {
+        console.log("Server shutting down...");
+        server.close();
+        rl.close();
+    }
+});
