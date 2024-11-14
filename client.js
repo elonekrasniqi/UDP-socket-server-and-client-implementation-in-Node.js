@@ -137,3 +137,28 @@ function chatWithServer() {
         }
     });
 }
+// Funksioni për dërgimin e komandave te serveri
+function enterCommand() {
+    rl.question("Enter your command: ", (cmd) => {
+        const commandParts = cmd.trim().split(' ');
+        const mainCommand = commandParts[0];
+
+        if ((mainCommand === 'add' || mainCommand === 'remove' || mainCommand === 'execute' || 
+             mainCommand === 'edit' || mainCommand === 'clear' || mainCommand === 'read' || 
+             mainCommand === 'mkdir' || mainCommand === 'cd' || mainCommand === 'rmdir') && 
+            !commandParts[1]) {
+            console.log(`Error: Argument required for '${mainCommand}' command.`);
+            showMenu();
+        } else {
+            sendMessage(cmd);
+        }
+    });
+}
+
+// Funksioni për kërkimin e privilegjeve admin
+function requestAdminPrivileges() {
+    sendMessage('request_admin');
+    console.log("Admin privilege request sent. Waiting for server response...");
+    waitingForResponse = true;
+    hasRequestedPrivileges = true;
+}
