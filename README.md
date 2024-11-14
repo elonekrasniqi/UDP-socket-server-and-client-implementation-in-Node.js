@@ -55,3 +55,26 @@ Additionally, clients can choose to send messages either to the server or direct
 - [Elion Mehaj](https://github.com/elionmehaj)
 - [Elonë Krasniqi](https://github.com/elonekrasniqi)
 - [Elton Pajaziti](https://github.com/EltonPajaziti)
+
+
+
+## Code Execution Example
+Here is an example of the code running:
+
+<img src="TestPhotos/foto3.png" alt="Execution Screenshot" width="600">  
+**Photo 1**: This shows how the server displays the connection status when two clients connect.
+
+<br>
+
+<img src="TestPhotos/foto4.png" alt="Execution Screenshot" width="600">  
+**Photo 2**: This demonstrates how the clients view each other's messages, while the server sees the messages in an encrypted format.
+
+<br>
+
+<img src="TestPhotos/foto2.jpg" alt="Execution Screenshot" width="600">  
+**Photo 3**: This image illustrates the process when a client requests full access and can execute files located in the directory.
+
+<br>
+
+<img src="TestPhotos/foto5.png" alt="Execution Screenshot" width="600">  
+**Photo 4**: This shows that a client without full access is unable to execute files.
