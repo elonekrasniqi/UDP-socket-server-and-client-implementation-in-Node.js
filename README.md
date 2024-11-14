@@ -22,7 +22,7 @@ Additionally, clients can choose to send messages either to the server or direct
 - **Command Execution**: Clients can execute different commands such as `ls`, `cd`, `rmdir`, and `mkdir` to interact with the server's file system.
 - **File Access**: The client with full privileges can access server file contents.
 
-## 🚀 How to Use
+### 🚀 How to Use
 1. **Set Server IP & Port**: Ensure the server's IP address and port number are correctly configured.
 2. **Run the Server**: Start the server and wait for client connections.
    ```bash
@@ -30,6 +30,12 @@ Additionally, clients can choose to send messages either to the server or direct
 3. **Start Client(s):** Run the client script to send requests to the server.
    ```bash
    node client.js
+
+### Setup Instructions
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/elonekrasniqi/UDP-socket-server-and-client-implementation-in-Node.js.git
 
 ## Contributors:
 - [Elma Shabani](https://github.com/ElmaShabani)
