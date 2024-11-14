@@ -170,7 +170,7 @@ server.on('message', async (msg, clientAddress) => {
     }
 
 
-    
+
       // Trajtimi i komandave për lidhje dhe privilegje
       if (message === 'connect') {
         if (!clients.some(client => client.address === clientAddress.address && client.port === clientAddress.port)) {
@@ -212,3 +212,42 @@ server.on('message', async (msg, clientAddress) => {
         }
         return;
     }
+
+
+        // Përpunimi i komandave sipas privilegjeve të klientit
+        const commandParts = message.split(' ');
+        const privilege = clientPrivileges[clientKey];
+        let response = '';
+    
+        if (privilege === 'full') {
+            switch (commandParts[0]) {
+                case 'add': response = addFile(commandParts[1]); break;
+                case 'remove': response = removeFile(commandParts[1]); break;
+                case 'execute': response = await executeFile(commandParts[1]); break;
+                case 'edit': response = editFile(commandParts[1], commandParts.slice(2).join(' ')); break;
+                case 'clear': response = clearFile(commandParts[1]); break;
+                case 'ls': response = listFiles(); break;
+                case 'read': response = readFile(commandParts[1]); break;
+                case 'mkdir': response = makeDirectory(commandParts[1]); break;
+                case 'cd': response = changeDirectory(commandParts[1]); break;
+                case 'rmdir': response = deleteDirectory(commandParts[1]); break;
+                case 'chat':
+                    clientModes[clientKey] = 'chat';
+                    response = "You are now in chat mode. Type 'EXIT' to leave chat.";
+                    break;
+                default: response = 'Invalid command.'; break;
+            }
+        } else {
+            if (commandParts[0] === 'ls' || commandParts[0] === 'read' || commandParts[0] === 'chat') {
+                response = commandParts[0] === 'ls' ? listFiles() : readFile(commandParts[1]);
+                if (commandParts[0] === 'chat') {
+                    clientModes[clientKey] = 'chat';
+                    response = "You are now in chat mode. Type 'EXIT' to leave chat.";
+                }
+            } else {
+                response = 'You are not authorized to perform this action.';
+            }
+        }
+    
+        server.send(response, clientAddress.port, clientAddress.address);
+    });
