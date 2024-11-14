@@ -62,19 +62,19 @@ Additionally, clients can choose to send messages either to the server or direct
 Here is an example of the code running:
 
 <img src="TestPhotos/foto3.png" alt="Execution Screenshot" width="600">  
-**Photo 1**: This shows how the server displays the connection status when two clients connect.
+<strong>Photo 1</strong>: This shows how the server displays the connection status when two clients connect.
 
-<br>
+<br><br>
 
 <img src="TestPhotos/foto4.png" alt="Execution Screenshot" width="600">  
-**Photo 2**: This demonstrates how the clients view each other's messages, while the server sees the messages in an encrypted format.
+<strong>Photo 2</strong>: This demonstrates how the clients view each other's messages, while the server sees the messages in an encrypted format.
 
-<br>
+<br><br>
 
 <img src="TestPhotos/foto2.jpg" alt="Execution Screenshot" width="600">  
-**Photo 3**: This image illustrates the process when a client requests full access and can execute files located in the directory.
+<strong>Photo 3</strong>: This image illustrates the process when a client requests full access and can execute files located in the directory.
 
-<br>
+<br><br>
 
 <img src="TestPhotos/foto5.png" alt="Execution Screenshot" width="600">  
-**Photo 4**: This shows that a client without full access is unable to execute files.
+<strong>Photo 4</strong>: This shows that a client without full access is unable to execute files.
