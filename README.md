@@ -1,5 +1,18 @@
-# UDP-socket-server-and-client-implementation-in-Node.js
+<p align="center">
+  <img src="./universityLogo.svg" alt="University Logo" width="70" />
+</p>
+
+
+<h1 align="center">UDP-socket-server-and-client-implementation-in-Node.js</h1>
+
 This is a semester project developed by students at the University "Hasan Prishtina" - Faculty of Electrical and Computer Engineering, in the course "Computer Network" - Prof.Blerim Rexha and Msc.Mergim Hoti.
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Main Features](#⚙️-main-features)
+- [How to Use](#🚀-how-to-use)
+- [Setup Instructions](#setup-instructions)
+- [Contributors](#contributors)
 
 ## Introduction
 This project demonstrates a server-client system using UDP sockets. The server listens for client requests, processes incoming messages, and provides either full or restricted access to stored files. 
