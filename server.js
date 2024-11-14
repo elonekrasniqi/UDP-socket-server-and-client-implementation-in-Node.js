@@ -168,3 +168,47 @@ server.on('message', async (msg, clientAddress) => {
         broadcastToClientsOnly(encryptedContent, clientAddress);
         return;
     }
+
+
+    
+      // Trajtimi i komandave për lidhje dhe privilegje
+      if (message === 'connect') {
+        if (!clients.some(client => client.address === clientAddress.address && client.port === clientAddress.port)) {
+            clients.push(clientAddress);
+            clientPrivileges[clientKey] = 'read-only';
+            clientModes[clientKey] = 'command';
+            console.log(`New client connected: ${clientKey}`);
+            server.send("Connection successful. You have read-only access.", clientAddress.port, clientAddress.address);
+        }
+        return;
+    }
+
+    if (message === 'request_admin') {
+        if (clientPrivileges[clientKey] === 'full') {
+            server.send('You already have admin privileges.', clientAddress.port, clientAddress.address);
+        } else {
+            adminRequests.push(clientAddress);
+            server.send('Admin request received. Awaiting server approval...', clientAddress.port, clientAddress.address);
+            console.log(`Client ${clientKey} requested admin privileges.`);
+            askForAdminApproval(clientAddress);
+        }
+        return;
+    }
+
+    if (message.startsWith('chat_exit')) {
+        clientModes[clientKey] = 'command';
+        console.log(`Client ${clientKey} has exited chat mode.`);
+        server.send(`Client ${clientKey} has exited chat mode.`, clientAddress.port, clientAddress.address);
+        return;
+    }
+
+    if (clientModes[clientKey] === 'chat') {
+        if (message.startsWith('chat_exit')) {
+            clientModes[clientKey] = 'command';
+            server.send("You have exited chat mode. You are now in command mode.", clientAddress.port, clientAddress.address);
+        } else {
+            const chatMessage = `Message from ${clientKey} - ${message}`;
+            broadcastToClientsOnly(chatMessage, clientAddress);
+        }
+        return;
+    }
