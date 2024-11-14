@@ -2,23 +2,25 @@ const dgram = require('dgram');
 const readline = require('readline');
 const crypto = require('crypto');
 
-const SERVER_IP = '127.0.0.1';
+const SERVER_IP = '192.168.104.99';
 const SERVER_PORT = 3500;
 
 const client = dgram.createSocket('udp4');
 let inChatMode = false;
 let waitingForResponse = false;
 let hasRequestedPrivileges = false;
-let isAdmin = false;
+let isAdmin = false; // Ndjek statusin admin për klientin
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-const encryptionKey = Buffer.from('12345678901234567890123456789012', 'utf8'); 
-const iv = Buffer.from('1234567890123456', 'utf8');
+// Çelësi dhe IV për enkriptimin dhe dekriptimin (duhet të jetë i njëjtë si te serveri për testim)
+const encryptionKey = Buffer.from('12345678901234567890123456789012', 'utf8'); // 32 bytes për AES-256
+const iv = Buffer.from('1234567890123456', 'utf8'); // 16 bytes për IV
 
+// Funksioni për enkriptimin e mesazhit
 function encryptMessage(message) {
     const cipher = crypto.createCipheriv('aes-256-cbc', encryptionKey, iv);
     let encrypted = cipher.update(message, 'utf8', 'hex');
@@ -26,6 +28,7 @@ function encryptMessage(message) {
     return encrypted;
 }
 
+// Funksioni për dekriptimin e mesazhit
 function decryptMessage(encryptedMessage) {
     const decipher = crypto.createDecipheriv('aes-256-cbc', encryptionKey, iv);
     let decrypted = decipher.update(encryptedMessage, 'hex', 'utf8');
@@ -33,6 +36,7 @@ function decryptMessage(encryptedMessage) {
     return decrypted;
 }
 
+// Funksioni për chat mes klientëve (me enkriptim AES)
 function chatWithClients() {
     console.log("You are now in chat with other clients. Type 'EXIT' to leave.");
 
@@ -49,6 +53,8 @@ function chatWithClients() {
     });
 }
 
+// Handler për marrjen e mesazheve nga serveri
+// Handler për marrjen e mesazheve nga serveri
 client.on('message', (msg) => {
     const message = msg.toString().trim();
     if (message.startsWith('chat_clients')) {
@@ -62,25 +68,28 @@ client.on('message', (msg) => {
     } else {
         console.log(`\nServer: ${message}`);
         if (message.includes("Your admin privileges have been approved")) {
-            isAdmin = true;
+            isAdmin = true; // Vendos klientin si admin nëse serveri e aprovon
             waitingForResponse = false;
-            showMenuAfterPrivilegeRequest();
+            showMenuAfterPrivilegeRequest(); // Thirr menynë pa opsionin 4
         } else if (message.includes("Your admin privileges request has been denied")) {
             waitingForResponse = false;
             console.log("Admin privileges request was denied.");
-            showMenu();
+            showMenu(); // Thirr menynë me të gjitha opsionet për të rifilluar rrjedhën
         } else if (!inChatMode && !waitingForResponse) {
             setImmediate(() => showMenu());
         }
     }
 });
 
+
+// Trajtimi i gabimeve nga klienti
 client.on('error', (err) => {
     console.log(`Client error: ${err.message}`);
     client.close();
     process.exit();
 });
 
+// Mbyllja e lidhjes
 client.on('close', () => {
     console.log("Disconnected from the server.");
     process.exit();
@@ -137,6 +146,7 @@ function chatWithServer() {
         }
     });
 }
+
 // Funksioni për dërgimin e komandave te serveri
 function enterCommand() {
     rl.question("Enter your command: ", (cmd) => {
@@ -162,3 +172,28 @@ function requestAdminPrivileges() {
     waitingForResponse = true;
     hasRequestedPrivileges = true;
 }
+
+// Funksioni për të shfaqur menynë pas kërkesës për privilegje admin
+function showMenuAfterPrivilegeRequest() {
+    console.log("\nAdmin privileges granted. You now have full access.");
+    console.log("\n1. Send a message to the server");
+    console.log("2. Send a message to the chat with other clients");
+    console.log("3. Send a command to the server");
+    
+    rl.question("Choose an option (1, 2, or 3): ", (choice) => {
+        if (choice === '1') {
+            chatWithServer();
+        } else if (choice === '2') {
+            chatWithClients();
+        } else if (choice === '3') {
+            enterCommand();
+        } else {
+            console.log("Invalid choice. Please enter a valid option.");
+            showMenuAfterPrivilegeRequest();
+        }
+    });
+}
+
+// Lidhja fillestare me serverin
+console.log(`Connecting to server at ${SERVER_IP}:${SERVER_PORT}...`);
+sendMessage('connect');
